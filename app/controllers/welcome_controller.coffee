@@ -4,5 +4,6 @@ class WelcomeController extends Backbone.Controller
     
   index: ->
     new WelcomeIndexView
+    new UsersListView { collection : Users }
     
 new WelcomeController

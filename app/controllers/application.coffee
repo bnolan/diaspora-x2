@@ -59,30 +59,48 @@ class Connection
 
     true
     
+  onPresence: (stanza) ->
+    presence = $(stanza)
+    
+    jid = presence.attr('from').replace(/\/.+/,'')
+    
+    console.log stanza
+    
+    if Users.findByJid(jid)
+      # ...
+    else
+      user = new User {
+        jid : jid
+      }
+      
+      Users.add user
+      
+    true
+    
   onIq: (iq) ->
     # console.log iq
 
     for item in $(iq).find('item')
       item = $(item)
       
-      if item.find 'geoloc'
-        # $("<div />").text(iq.find('geoloc').text()).appendTo '#main'
-
+      if item.find 'content'
         post = new Post { 
-          content : item.find('geoloc').text() 
+          id : item.find('id').text().replace(/.+:/,'')
+          content : item.find('content').text() 
           author : item.find('author jid').text()
-          id : item.find('id').text()
           published : item.find('published').text()
         }
       
-        Posts.add(post)
+        if item.find('in-reply-to')
+          post.set { in_reply_to : item.find('in-reply-to').attr('ref') }
 
-      if item.find 'content'
-        post = new Post { 
-          content : item.find('content').text() 
-          author : item.find('author jid').text()
-        }
-      
+        if item.find 'geoloc'
+          post.set { 
+            geoloc_country : item.find('geoloc country').text()
+            geoloc_locality : item.find('geoloc locality').text()
+            geoloc_text : item.find('geoloc text').text()
+          }
+        
         Posts.add(post)
       
       # $("<div />").text(iq.find('content').text()).appendTo '#main'
@@ -95,13 +113,9 @@ class Connection
     
     true
     
-  eh: (stanza) ->
-    console.log stanza
-
-    true
-    
   subscribeNodes: ->
     $(".auth .name").text(@c.jid.replace(/\/.+/,''))
+    $('.currentuser').text(@c.jid.replace(/\/.+/,''))
     # console.log "Connected as #{@c.jid}..."
 
     # Send a presence stanza
@@ -110,6 +124,7 @@ class Connection
     # Add handlers for messages and iq stanzas
     @c.addHandler(@onMessage, null, 'message', null, null,  null); 
     @c.addHandler(@onIq, null, 'iq', null, null,  null); 
+    @c.addHandler(@onPresence, null, 'presence', null, null,  null); 
 
     @c.send $pres( { "to" : PUBSUB_BRIDGE } ).tree()
     
