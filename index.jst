@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" class="no-js"> 
+	<title><%= project.name().capitalize() %></title>
+  <meta charset="utf-8">
+  <%= project.stylesheetIncludes() %>
+  <%= project.scriptIncludes() %>
+</head>
+
+<body>
+  <div id='notification'></div> 
+
+  <div id="log"></div>
+  
+  <div class='header'>
+    <div class="container_12">
+      <div class="grid_5">
+        <h1><a href="/">DIASPORA*</a> <span class='sub_text'>X</span></h1>
+      </div>
+
+      <div class="grid_3 prefix_3">
+        <div class="auth">
+          <img src="http://media.buddycloud.com/channel/54x54/buddycloud.com/simon.png" class="micro avatar">
+          <a class="name" href="#">captainamus@gmail.com</a>
+        
+          <a href="#" class="signout">Log out</a>
+        </div>
+      </div>
+      
+      <div class="clear"></div>
+      
+      <ul class="tabs">
+        <li class="active"><a href="#">News feed</a></li>
+        <li><a href="#">Profile</a></li>
+        <li class="right"><a href="http://github.com/bnolan/diaspora-x">Github</a></li>
+      </ul>
+        
+    </div>
+  </div>
+  
+  <div class='container_12'>
+    <div class="flash message">Blah!</div>
+
+    <div id="main">
+    </div>
+    
+    <div class='clear'></div> 
+  </div> 
+</body>
+</html>

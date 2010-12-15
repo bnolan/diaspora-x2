@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" class="no-js"> 
+	<title>Dx</title>
+  <meta charset="utf-8">
+  <link href='.//public/stylesheets/960.css' media='screen' rel='stylesheet' type='text/css' />
+<link href='.//public/stylesheets/application.less' rel='stylesheet/less' type='text/css' />
+  <script src='.//lib/jquery.js' type='text/javascript'></script>
+<script src='.//lib/underscore.js' type='text/javascript'></script>
+<script src='.//lib/backbone.js' type='text/javascript'></script>
+<script src='.//lib/coffeescript.js' type='text/javascript'></script>
+<script src='.//lib/less.js' type='text/javascript'></script>
+<script src='.//lib/strophe.js' type='text/javascript'></script>
+<script src='.//lib/timeago.js' type='text/javascript'></script>
+<script src='.//app/controllers/application.coffee' type='text/coffeescript'></script>
+<script src='.//app/controllers/welcome_controller.coffee' type='text/coffeescript'></script>
+<script src='.//app/views/welcome/index.coffee' type='text/coffeescript'></script>
+<script src='.//app/models/post.coffee' type='text/coffeescript'></script>
+</head>
+
+<body>
+  <div id='notification'></div> 
+
+  <div id="log"></div>
+  
+  <div class='header'>
+    <div class="container_12">
+      <div class="grid_5">
+        <h1><a href="/">DIASPORA*</a> <span class='sub_text'>X</span></h1>
+      </div>
+
+      <div class="grid_3 prefix_3">
+        <div class="auth">
+          <img src="http://media.buddycloud.com/channel/54x54/buddycloud.com/simon.png" class="micro avatar">
+          <a class="name" href="#">captainamus@gmail.com</a>
+        
+          <a href="#" class="signout">Log out</a>
+        </div>
+      </div>
+      
+      <div class="clear"></div>
+      
+      <ul class="tabs">
+        <li class="active"><a href="#">News feed</a></li>
+        <li><a href="#">Profile</a></li>
+        <li class="right"><a href="http://github.com/bnolan/diaspora-x">Github</a></li>
+      </ul>
+        
+    </div>
+  </div>
+  
+  <div class='container_12'>
+    <div class="flash message">Blah!</div>
+
+    <div id="main">
+    </div>
+    
+    <div class='clear'></div> 
+  </div> 
+</body>
+</html>
