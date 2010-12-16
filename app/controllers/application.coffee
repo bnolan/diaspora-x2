@@ -6,8 +6,6 @@ CHANNEL = "/user/simon@buddycloud.com/channel"
 
 class Connection
   constructor: (jid, password) ->
-    console.log "Connecting..."
-    
     @c = new Strophe.Connection(BOSH_SERVICE)
     @c.connect jid, password, @onConnect
 
@@ -15,26 +13,72 @@ class Connection
       $("<div />").text(message).addClass('input').appendTo '#log'
     
     @c.rawOutput = (message) ->
-      $("<div />").text(message).addClass('output').appendTo '#log'
+      c = if message.match(/error/)
+        'error'
+      else
+        'output'
+        
+      $("<div />").text(message).addClass(c).appendTo '#log'
 
     @maxMessageId = "0"
-    
-    console.log "... ok"
-    
+  
   onConnect: (status) =>
+    console.log status
+    
     if (status == Strophe.Status.CONNECTING)
       console.log('Strophe is connecting.')
+    else if (status == Strophe.Status.AUTHFAIL)
+      console.log('Strophe failed to authenticate.')
+      app.signout()
     else if (status == Strophe.Status.CONNFAIL)
       console.log('Strophe failed to connect.')
+      app.signout()
     else if (status == Strophe.Status.DISCONNECTING)
       console.log('Strophe is disconnecting.')
     else if (status == Strophe.Status.DISCONNECTED)
       console.log('Strophe is disconnected.')
     else if (status == Strophe.Status.CONNECTED)
       console.log('Strophe is connected.')
-      @subscribeNodes()
+      @afterConnected()
+
       # @c.disconnect()
 
+  # getSubscriptions: (node) ->
+  #   id = @c.getUniqueId("LM")
+  # 
+  #   stanza = $iq({"id":id, "to":PUBSUB_BRIDGE, "type":"get"})
+  #     .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
+  #     .c("subscriptions")
+  # 
+  #   # Request..
+  #   @c.send(stanza.tree());
+  # 
+  #   id = @c.getUniqueId("LM")
+  # 
+  #   stanza = $iq({"id":id, "to":PUBSUB_BRIDGE, "type":"get"})
+  #     .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
+  #     .c("items")
+  #     .c("set", {"xmlns":"http://jabber.org/protocol/rsm"})
+  #     .c("after").t(@maxMessageId)
+  # 
+  #   # Request..
+  #   @c.send(stanza.tree());
+  #   
+  
+  getAllChannels: ->
+    stanza = $pres( { "to" : PUBSUB_BRIDGE } )
+    
+    limit = stanza.c("set", {"xmlns":"http://jabber.org/protocol/rsm"})
+    
+    limit
+      .c("after").t(@maxMessageId)
+    limit
+      .c("max").t("100")
+    limit
+      .c("before")
+
+    @c.send stanza.tree()
+    
   getChannel: (node) ->
     id = @c.getUniqueId("LM")
 
@@ -63,8 +107,6 @@ class Connection
     presence = $(stanza)
     
     jid = presence.attr('from').replace(/\/.+/,'')
-    
-    console.log stanza
     
     if Users.findByJid(jid)
       # ...
@@ -113,10 +155,8 @@ class Connection
     
     true
     
-  subscribeNodes: ->
-    $(".auth .name").text(@c.jid.replace(/\/.+/,''))
-    $('.currentuser').text(@c.jid.replace(/\/.+/,''))
-    # console.log "Connected as #{@c.jid}..."
+  afterConnected: ->
+    app.signedIn(@c.jid.replace(/\/.+/,''))
 
     # Send a presence stanza
     @c.send($pres().tree());
@@ -126,11 +166,13 @@ class Connection
     @c.addHandler(@onIq, null, 'iq', null, null,  null); 
     @c.addHandler(@onPresence, null, 'presence', null, null,  null); 
 
-    @c.send $pres( { "to" : PUBSUB_BRIDGE } ).tree()
+    @getAllChannels()
     
-    @getChannel(CHANNEL)
+    @c.pubsub.setService(PUBSUB_BRIDGE)
 
-    # connection.pubsub.setService(PUBSUB_BRIDGE);
+    # @getSubscriptions()
+    # @getChannel(CHANNEL)
+
     # connection.pubsub.subscribe(CHANNEL_NODE, null, null, Rcf.onSubscriptionIq, true);
     # Rcf.requestNodeMetaData(CHANNEL_NODE);
 
@@ -153,12 +195,56 @@ class Connection
 
 app = {}
 
-app.start = ->
-  # Establish xmpp connection
-  window.$c = new Connection("captainamus@gmail.com", localStorage['password'])
+app.connect = ->
+  # Spinner!
+  app.spinner()
 
+  window.location.hash = "connecting"
+
+  # Establish xmpp connection
+  window.$c = new Connection(localStorage['jid'], localStorage['password'])
+
+app.currentUser = null
+
+app.spinner = ->
+  $("#content").empty()
+  $("<div id='spinner'><img src='public/spinner.gif' /> Connecting...</div>").appendTo 'body'
+
+app.signedIn = (jid) ->
+  $("#spinner").remove()
+
+  if not Users.findByJid(jid)
+    user = new User { jid : jid }
+    Users.add user
+    
+  app.currentUser = Users.findByJid(jid)
+  
+  window.location.hash = "home"
+  
+  new CommonAuthView
+  
+app.signout = ->
+  window.location.hash = ""
+  $("#spinner").remove()
+  
+  localStorage.removeItem('jid')
+
+  try
+    window.$c.c.disconnect()
+  catch e
+    # ...
+    
+  window.$c = null
+  
+
+app.start = ->
+  # The login / connection process isn't robust enough to jump
+  # to a random page in the app yet..
+  window.location.hash = ""
+  
   # Start the url router
-  Backbone.history.start();
+  Backbone.history.start();  
+
 
 @app = app
 

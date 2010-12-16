@@ -1,5 +1,8 @@
 class WelcomeIndexView extends Backbone.View
   initialize: ->
+    new CommonPageView
+    new UsersListView { collection : Users }
+
     @el = $("#main") # app.activePage()
 
     @collection = Posts

@@ -142,8 +142,10 @@ input[type='text'], input[type='password'], textarea{
 }
 
 .new_activity.status h4{
-  background-image: url(/images/monotone_chat_talk.png);
+  background-image: url(../icons/pencil.png);
+	background-size: 16px 16px;
   background-repeat: no-repeat;
+	background-position: 10px 10px;
   line-height: 42px;
   padding-left: 40px;
   color: black;
@@ -492,5 +494,23 @@ input[type='text'], input[type='password'], textarea{
 	
 	.output{
 		background: #ffc;
+	}
+	
+	.error{
+		background: red;
+		color: white;
+	}
+}
+
+#spinner{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	color: #666;
+	
+	img{
+		position: relative;
+		top: 3px;
+		width: 16px;
 	}
 }
