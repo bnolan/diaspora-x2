@@ -67,13 +67,14 @@ class Connection
     id = @c.getUniqueId("LM")
 
     stanza = $iq({"id" : id, "to" : PUBSUB_BRIDGE, "type" : "set"})
-      .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
+      .c("pubsub", { "xmlns" : "http://jabber.org/protocol/pubsub" })
       .c("publish", {"node":post.get('channel')})
       .c("item")
       .c("entry", {"xmlns":"http://www.w3.org/2005/Atom"})
       .c("content", {"type" : "text"}).t(post.get("content")).up()
       .c("author")
       .c("jid", {"xmlns":"http://buddycloud.com/atom-elements-0"}).t(post.get("author")).up().up()
+      .c("in-reply-to", { "xmlns" : "http://purl.org/syndication/thread/1.0", "ref" : post.get('in_reply_to') }).up()
       # ... geoloc ..
 
     console.log(stanza.tree())

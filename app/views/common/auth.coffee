@@ -5,7 +5,7 @@ class CommonAuthView extends Backbone.View
     @template = _.template('''
       <div class="auth">
         <img src="<%= user.getAvatar() %>" class="micro avatar">
-        <a class="name" href="#"><%= user.get('jid') %></a>
+        <a class="name" href="#users/<%= user.get('jid') %>"><%= user.get('jid') %></a>
 
         <a href="#logout" class="signout">Log out</a>
       </div>
