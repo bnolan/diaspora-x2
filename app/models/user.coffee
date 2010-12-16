@@ -2,6 +2,9 @@ class User extends Backbone.Model
   initializer: ->
     # ...
 
+  fetchPosts: ->
+    $c.getChannel @channelId()
+    
   getName: ->
     @get('jid').replace /@.+/, ''
 
@@ -25,6 +28,19 @@ class UserCollection extends Backbone.Collection
   findByJid : (jid) ->
     @find (user) ->
       user.get('jid') == jid
+      
+  findOrCreateByJid : (jid) ->
+    user  = null
+    
+    if @findByJid(jid)
+      user = @findByJid(jid)
+    else
+      user = new User {
+        jid : jid
+      }
+      @add user
+
+    user
   # comparator: (post) ->
   #   post.get('published')
   

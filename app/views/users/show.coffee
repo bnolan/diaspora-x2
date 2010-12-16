@@ -1,4 +1,4 @@
-class WelcomeIndexView extends Backbone.View
+class UsersShowView extends Backbone.View
   initialize: ->
     new CommonPageView
     new UsersListView { collection : Users }
@@ -99,22 +99,15 @@ class WelcomeIndexView extends Backbone.View
 
     window.$p = post
     
-    $c.sendPost(post) # .save()
-    
-  # 
-  # select: (e) ->
-  #   @el.find('a').removeClass 'active'
-  #   $(e.currentTarget).addClass 'active'
-
-  # Render the content
+    $c.sendPost(post)
   
   getPosts: ->
-    _ @collection.select((post) ->
-      (!post.isReply()) && (post.isUserChannel())
+    _ @collection.select((post) =>
+      (!post.isReply()) && (post.get('author').get('jid') == @model.get('jid'))
     ).reverse()
     
   render: =>
     @el.html(@template( { posts : @getPosts() })).find('.timeago').timeago()
     @delegateEvents()
 
-@WelcomeIndexView = WelcomeIndexView
+@UsersShowView = UsersShowView

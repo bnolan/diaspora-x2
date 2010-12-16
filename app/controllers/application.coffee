@@ -103,7 +103,7 @@ class Connection
       .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
       .c("items", {"node":node})
       .c("set", {"xmlns":"http://jabber.org/protocol/rsm"})
-      .c("after").t(@maxMessageId + "")
+      .c("after").t("100")
 
     # Request..
     @c.send(stanza.tree());
@@ -154,7 +154,7 @@ class Connection
           post = new Post { 
             id : id
             content : item.find('content').text() 
-            author : item.find('author jid').text()
+            author : Users.findOrCreateByJid(item.find('author jid').text())
             published : item.find('published').text()
             channel : channel
           }

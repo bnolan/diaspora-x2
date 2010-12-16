@@ -1,12 +1,12 @@
-class UsersListView extends Backbone.View
+class ChannelsListView extends Backbone.View
   initialize: ->
-    @el = $("#friends-list")
+    @el = $("#channels-list")
 
     @template = _.template('''
       <% users.each(function(user){ %>
         <li>
           <img class="micro avatar" src="<%= user.getAvatar() %>" />
-          <b><a href="#users/<%= user.get('jid') %>"><%= user.getName() %></a></b>
+          <b><a href="#"><%= user.getName() %></a></b>
             - <span class="status"><%= user.getStatus() %></span>
         </li>
       <% }); %>
@@ -23,4 +23,4 @@ class UsersListView extends Backbone.View
     @el.html(@template( { users : @collection }))
     @delegateEvents()
 
-@UsersListView = UsersListView
+@ChannelsListView = ChannelsListView
