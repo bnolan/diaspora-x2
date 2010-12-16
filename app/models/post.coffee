@@ -8,6 +8,8 @@ class Post extends Backbone.Model
   hasGeoloc: ->
     (typeof @get('geoloc_text') == 'string') and (@get('geoloc_text') != "")
 
+  isUserChannel: ->
+    @get('channel').match /^.user/
   hasReplies: ->
     @getReplies().any()
     

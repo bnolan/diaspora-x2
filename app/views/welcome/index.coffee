@@ -109,8 +109,8 @@ class WelcomeIndexView extends Backbone.View
   # Render the content
   
   getPosts: ->
-    _ @collection.reject((post) ->
-      post.isReply()
+    _ @collection.select((post) ->
+      (!post.isReply()) && (post.isUserChannel())
     ).reverse()
     
   render: =>
