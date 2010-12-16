@@ -9,23 +9,21 @@ class UsersShowView extends Backbone.View
     
     @template = _.template('''
 
+      <h1>
+        <%= user.getName() %>
+      </h1>
+      <p class="usermeta">
+        <img src="public/icons/globe_2.png" /> <%= user.get('jid') %>
+        |
+        <a href="#users/<%= user.get('jid') %>/subscribe">Subscribe</a>
+      </p>
+    
       <form action="#" class="new_activity status">
-        <h4>What are you doing now?</h4>
+        <h4>Write on <%= user.getName() %>s wall</h4>
         <textarea cols="40" id="activity_content" name="content" rows="20"></textarea>
         <input name="commit" type="submit" value="Share" />
       </form>
         
-      <h1>
-        <%= user.getName() %>
-      </h1>
-      <h2>
-        <%= user.get('jid') %>
-      </h2>
-      
-      <div>
-        <a href="#users/<%= user.get('jid') %>/subscribe">Subscribe</a>
-      </div>
-      
       <div class="posts"></div>
     ''')
 
@@ -52,7 +50,7 @@ class UsersShowView extends Backbone.View
     post = new Post {
       content : @el.find('textarea:first').val()
       in_reply_to : null
-      channel : app.currentUser.channelId()
+      channel : @model.channelId()
       author : app.currentUser.get('jid')
     }
     
