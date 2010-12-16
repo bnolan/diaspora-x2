@@ -212,16 +212,16 @@ class Connection
     
     true
     
-  createMyChannel: ->
-    id = @c.getUniqueId("LM")
-
-    stanza = $iq({"id":id, "to":PUBSUB_BRIDGE, "type":"set"})
-      .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
-      .c("create", { "node" : app.currentUser.channelId() }).up()
-
-    @c.send(stanza.tree())
-    
-    @grantChannelPermissions app.currentUser.get('jid'), app.currentUser.channelId()
+  # createMyChannel: ->
+  #   id = @c.getUniqueId("LM")
+  # 
+  #   stanza = $iq({"id":id, "to":PUBSUB_BRIDGE, "type":"set"})
+  #     .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
+  #     .c("create", { "node" : app.currentUser.channelId() }).up()
+  # 
+  #   @c.send(stanza.tree())
+  #   
+  #   @grantChannelPermissions app.currentUser.get('jid'), app.currentUser.channelId()
     
   afterConnected: ->
     app.signedIn(@c.jid.replace(/\/.+/,''))
@@ -236,7 +236,7 @@ class Connection
     @c.send($pres( { "type" : "subscribe", "to" : PUBSUB_BRIDGE } ).tree())
 
     # Create channel for currentUser
-    @createMyChannel()
+    # @createMyChannel()
 
     # Add handlers for messages and iq stanzas
     @c.addHandler(@onMessage, null, 'message', null, null,  null); 
