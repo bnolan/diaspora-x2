@@ -11,7 +11,6 @@ class Connection
 
     @c.rawInput = (message) ->
       c = if message.match(/error/)
-        $("#log").show()
         'error'
       else
         'input'
