@@ -34,6 +34,7 @@ class WelcomeIndexView extends Backbone.View
               <% if(post.hasGeoloc()){ %>
                 | <%= post.get('geoloc_text') %>
               <% } %>
+              | <%= post.id %>
             </p>
           
             <% if(post.hasReplies()){ %>
@@ -52,6 +53,7 @@ class WelcomeIndexView extends Backbone.View
                       <% if(reply.hasGeoloc()){ %>
                         | <%= reply.get('geoloc_text') %>
                       <% } %>
+                      | <%= reply.id %>
                     </span>
                   </div>
                 <% }); %>
@@ -77,8 +79,14 @@ class WelcomeIndexView extends Backbone.View
   
   events: {
     'submit form' : 'submit'
+    'keydown textarea' : 'keydown'
   }
   
+  keydown: (e) ->
+    if ((e.metaKey || e.shiftKey) && e.keyCode == 13)
+      $(e.currentTarget).parents("form").submit();
+      e.preventDefault();
+    
   submit: (e) ->
     e.preventDefault()
 

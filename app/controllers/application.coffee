@@ -89,8 +89,8 @@ class Connection
     stanza
       .c("set", {"xmlns":"http://jabber.org/protocol/rsm"})
       .c("after").t(@maxMessageId + "")
-      .up()
-      .c("max").t("100")
+      # .up()
+      # .c("max").t("100")
       # .up()
       # .c("before")
 
@@ -143,7 +143,7 @@ class Connection
 
     for items in $(iq).find('items')
       items = $(items)
-      node = items.attr('node')
+      channel = items.attr('node')
 
       for item in items.find('item')
         item = $(item)
@@ -156,6 +156,7 @@ class Connection
             content : item.find('content').text() 
             author : item.find('author jid').text()
             published : item.find('published').text()
+            channel : channel
           }
       
           if item.find 'in-reply-to'
@@ -187,7 +188,14 @@ class Connection
     app.signedIn(@c.jid.replace(/\/.+/,''))
 
     # Send a presence stanza
-    @c.send($pres().tree());
+    @c.send($pres().tree())
+
+    # Tell the pubsub service
+    @c.send($pres( { "to" : PUBSUB_BRIDGE, "from" : app.currentUser.get('jid') } ).tree())
+
+    # Create my pubsub node
+    @c.send($pres( { "type" : "subscribe", "to" : PUBSUB_BRIDGE } ).tree())
+    
 
     # Add handlers for messages and iq stanzas
     @c.addHandler(@onMessage, null, 'message', null, null,  null); 
