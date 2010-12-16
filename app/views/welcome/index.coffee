@@ -38,26 +38,30 @@ class WelcomeIndexView extends Backbone.View
               | <%= post.id %>
             </p>
           
-            <div class="comments">
-              <div class="chevron">&diams;</div>
+            <% if(post.hasReplies()){ %>
+            
+              <div class="comments">
+                <div class="chevron">&diams;</div>
 
-              <% post.getReplies().each(function(reply){ %>
-                <div class="comment">
-                  <img class="micro avatar" src="<%= reply.getAuthorAvatar() %>" />
-                  <p class="content">
-                    <a href="#"><%= reply.getAuthorName() %></a> <%= reply.get('content') %>
-                  </p>
-                  <span class="meta">
-                    <span class='timeago' title='<%= reply.get('published') %>'><%= post.get('published') %></span>
-                    <% if(reply.hasGeoloc()){ %>
-                      | <%= reply.get('geoloc_text') %>
-                    <% } %>
-                    | <%= reply.id %>
-                  </span>
-                </div>
-              <% }); %>
+                <% post.getReplies().each(function(reply){ %>
+                  <div class="comment">
+                    <img class="micro avatar" src="<%= reply.getAuthorAvatar() %>" />
+                    <p class="content">
+                      <a href="#"><%= reply.getAuthorName() %></a> <%= reply.get('content') %>
+                    </p>
+                    <span class="meta">
+                      <span class='timeago' title='<%= reply.get('published') %>'><%= post.get('published') %></span>
+                      <% if(reply.hasGeoloc()){ %>
+                        | <%= reply.get('geoloc_text') %>
+                      <% } %>
+                      | <%= reply.id %>
+                    </span>
+                  </div>
+                <% }); %>
               
-            </div>
+              </div>
+            <% }; %>
+            
           </div>
           
           

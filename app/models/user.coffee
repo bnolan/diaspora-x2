@@ -2,17 +2,6 @@ class User extends Backbone.Model
   initializer: ->
     # ...
 
-  isReply: ->
-    (typeof @get('in_reply_to') == 'string') and (@get('in_reply_to') != "")
-    
-  hasGeoloc: ->
-    (typeof @get('geoloc_text') == 'string') and (@get('geoloc_text') != "")
-    
-  getReplies: ->
-    _ Posts.filter( (post) =>
-      post.get('in_reply_to') == @id
-    )
-    
   getName: ->
     @get('jid').replace /@.+/, ''
 
@@ -23,7 +12,7 @@ class User extends Backbone.Model
     if @get('jid').match /@buddycloud/
       "http://media.buddycloud.com/channel/54x54/buddycloud.com/#{@getName()}.png"
     else
-      'http://www.gravatar.com/avatar/' + hex_md5(@get('jid'))
+      'http://www.gravatar.com/avatar/' + hex_md5(@get('jid') + "?d=mm")
     
 this.User = User
 

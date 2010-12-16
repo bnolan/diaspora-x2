@@ -124,9 +124,11 @@ class Connection
     for item in $(iq).find('item')
       item = $(item)
       
-      if item.find 'content'
+      id = parseInt(item.find('id').text().replace(/.+:/,''))
+      
+      if (!Posts.get(id)) && (item.find('content'))
         post = new Post { 
-          id : parseInt(item.find('id').text().replace(/.+:/,''))
+          id : id
           content : item.find('content').text() 
           author : item.find('author jid').text()
           published : item.find('published').text()
