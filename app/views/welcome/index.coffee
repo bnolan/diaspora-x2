@@ -2,6 +2,7 @@ class WelcomeIndexView extends Backbone.View
   initialize: ->
     new CommonPageView
     new UsersListView { collection : Users }
+    new ChannelsListView { collection : Channels }
 
     @el = $("#main") # app.activePage()
 

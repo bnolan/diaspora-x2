@@ -167,6 +167,9 @@ class Connection
       items = $(items)
       channel = items.attr('node')
 
+      if !channel.match(/.user/)
+        Channels.findOrCreateByNode channel
+        
       for item in items.find('item')
         item = $(item)
       

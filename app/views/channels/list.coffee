@@ -3,11 +3,9 @@ class ChannelsListView extends Backbone.View
     @el = $("#channels-list")
 
     @template = _.template('''
-      <% users.each(function(user){ %>
+      <% channels.each(function(channel){ %>
         <li>
-          <img class="micro avatar" src="<%= user.getAvatar() %>" />
-          <b><a href="#"><%= user.getName() %></a></b>
-            - <span class="status"><%= user.getStatus() %></span>
+          <b><a href="#channels/<%= channel.get('node') %>"><%= channel.getName() %></a></b>
         </li>
       <% }); %>
     ''')
@@ -20,7 +18,7 @@ class ChannelsListView extends Backbone.View
     @render()
     
   render: =>
-    @el.html(@template( { users : @collection }))
+    @el.html(@template( { channels : @collection }))
     @delegateEvents()
 
 @ChannelsListView = ChannelsListView
