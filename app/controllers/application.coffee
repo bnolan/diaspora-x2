@@ -299,6 +299,9 @@ app.signout = ->
   window.location.hash = ""
   $("#spinner").remove()
   
+  Posts.refresh []
+  Users.refresh []
+  
   localStorage.removeItem('jid')
 
   try

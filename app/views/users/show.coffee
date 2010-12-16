@@ -60,7 +60,7 @@ class UsersShowView extends Backbone.View
   
   getPosts: ->
     _ @collection.select((post) =>
-      (!post.isReply()) && (post.get('author').get('jid') == @model.get('jid'))
+      (!post.isReply()) && (post.get('channel') == @model.channelId())
     ).reverse()
     
   render: =>
