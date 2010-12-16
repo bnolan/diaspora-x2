@@ -12,7 +12,7 @@ class User extends Backbone.Model
     if @get('jid').match /@buddycloud/
       "http://media.buddycloud.com/channel/54x54/buddycloud.com/#{@getName()}.png"
     else
-      'http://www.gravatar.com/avatar/' + hex_md5(@get('jid') + "?d=mm")
+      "http://www.gravatar.com/avatar/#{hex_md5(@get('jid'))}?d=http://media.buddycloud.com/channel/54x54/buddycloud.com/welcome.bot.png"
     
 this.User = User
 

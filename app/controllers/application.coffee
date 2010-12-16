@@ -121,33 +121,37 @@ class Connection
   onIq: (iq) ->
     # console.log iq
 
-    for item in $(iq).find('item')
-      item = $(item)
-      
-      id = parseInt(item.find('id').text().replace(/.+:/,''))
-      
-      if (!Posts.get(id)) && (item.find('content'))
-        post = new Post { 
-          id : id
-          content : item.find('content').text() 
-          author : item.find('author jid').text()
-          published : item.find('published').text()
-        }
-      
-        if item.find 'in-reply-to'
-          post.set { 'in_reply_to' : parseInt(item.find('in-reply-to').attr('ref')) }
+    for items in $(iq).find('items')
+      items = $(items)
+      node = items.attr('node')
 
-        if item.find 'geoloc'
-          post.set { 
-            geoloc_country : item.find('geoloc country').text()
-            geoloc_locality : item.find('geoloc locality').text()
-            geoloc_text : item.find('geoloc text').text()
+      for item in items.find('item')
+        item = $(item)
+      
+        id = parseInt(item.find('id').text().replace(/.+:/,''))
+      
+        if (!Posts.get(id)) && (item.find('content'))
+          post = new Post { 
+            id : id
+            content : item.find('content').text() 
+            author : item.find('author jid').text()
+            published : item.find('published').text()
           }
+      
+          if item.find 'in-reply-to'
+            post.set { 'in_reply_to' : parseInt(item.find('in-reply-to').attr('ref')) }
+
+          if item.find 'geoloc'
+            post.set { 
+              geoloc_country : item.find('geoloc country').text()
+              geoloc_locality : item.find('geoloc locality').text()
+              geoloc_text : item.find('geoloc text').text()
+            }
         
-        if post.valid()
-          Posts.add(post)
-        else
-          console.log "invalid post..."
+          if post.valid()
+            Posts.add(post)
+          else
+            console.log "invalid post..."
       
       # $("<div />").text(iq.find('content').text()).appendTo '#main'
       

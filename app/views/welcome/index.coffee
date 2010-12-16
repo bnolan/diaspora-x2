@@ -35,7 +35,6 @@ class WelcomeIndexView extends Backbone.View
               <% if(post.hasGeoloc()){ %>
                 | <%= post.get('geoloc_text') %>
               <% } %>
-              | <%= post.id %>
             </p>
           
             <% if(post.hasReplies()){ %>
@@ -54,7 +53,6 @@ class WelcomeIndexView extends Backbone.View
                       <% if(reply.hasGeoloc()){ %>
                         | <%= reply.get('geoloc_text') %>
                       <% } %>
-                      | <%= reply.id %>
                     </span>
                   </div>
                 <% }); %>

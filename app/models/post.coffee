@@ -32,7 +32,7 @@ class Post extends Backbone.Model
     if @get('author').match /@buddycloud/
       "http://media.buddycloud.com/channel/54x54/buddycloud.com/#{@getAuthorName()}.png"
     else
-      'http://www.gravatar.com/avatar/' + hex_md5(@get('author') + "?d=mm")
+      "http://www.gravatar.com/avatar/#{hex_md5(@get('author'))}?d=http://media.buddycloud.com/channel/54x54/buddycloud.com/welcome.bot.png"
     
 this.Post = Post
 
