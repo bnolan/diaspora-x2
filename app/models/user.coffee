@@ -14,6 +14,15 @@ class User extends Backbone.Model
   channelId: ->
     "/user/#{@get('jid')}/channel"
     
+  subscribe: ->
+    $c.subscribeToUser @get('jid')
+
+  unsubscribe: ->
+    $c.unsubscribeFromUser @get('jid')
+  
+  grantChannelPermissions: ->
+    $c.grantChannelPermissions @get('jid'), @channelId()
+    
   getAvatar: ->
     if @get('jid').match /@buddycloud/
       "http://media.buddycloud.com/channel/54x54/buddycloud.com/#{@getName()}.png"

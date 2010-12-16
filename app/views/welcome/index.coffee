@@ -26,7 +26,7 @@ class WelcomeIndexView extends Backbone.View
     @render()
   
   events: {
-    'submit form' : 'submit'
+    'submit form.new_activity.status' : 'submit'
     'keydown textarea' : 'keydown'
   }
   
@@ -45,9 +45,7 @@ class WelcomeIndexView extends Backbone.View
       author : app.currentUser.get('jid')
     }
 
-    window.$p = post
-    
-    $c.sendPost(post) # .save()
+    post.send()
     
   # 
   # select: (e) ->
@@ -63,8 +61,8 @@ class WelcomeIndexView extends Backbone.View
     
   render: =>
     @el.html(@template( { posts : @getPosts() })).find('.timeago').timeago()
-    
-    new PostsListView { el : @el.find('.posts'), collection : @getPosts() }
     @delegateEvents()
+
+    new PostsListView { el : @el.find('.posts'), collection : @getPosts() }
 
 @WelcomeIndexView = WelcomeIndexView

@@ -10,15 +10,16 @@ class Connection
     @c.connect jid, password, @onConnect
 
     @c.rawInput = (message) ->
-      $("<div />").text(message).addClass('input').appendTo '#log'
-    
-    @c.rawOutput = (message) ->
       c = if message.match(/error/)
+        $("#log").show()
         'error'
       else
-        'output'
-        
+        'input'
+      
       $("<div />").text(message).addClass(c).appendTo '#log'
+    
+    @c.rawOutput = (message) ->
+      $("<div />").text(message).addClass('output').appendTo '#log'
 
     @maxMessageId = 1292405757510
   
@@ -97,6 +98,12 @@ class Connection
 
     @c.send stanza.tree()
     
+  subscribeToUser: (jid) ->
+    @c.send($pres( { "type" : "subscribe", "to" : jid } ).tree())
+    
+  unsubscribeFromUser: (jid) ->
+    @c.send($pres( { "type" : "unsubscribe", "to" : jid } ).tree())
+    
   getChannel: (node) ->
     id = @c.getUniqueId("LM")
 
@@ -125,8 +132,11 @@ class Connection
     
     jid = presence.attr('from').replace(/\/.+/,'')
     
-    if Users.findByJid(jid)
-      # ...
+    if jid == "bennolan@buddycloud.com"
+      console.log stanza
+      
+    user = if Users.findByJid(jid)
+      Users.findByJid(jid)
     else
       user = new User {
         jid : jid
@@ -137,8 +147,22 @@ class Connection
       
       Users.add user
       
+      user
+
+    user.grantChannelPermissions()
+             
     true
-    
+
+  grantChannelPermissions: (jid, node) ->
+    id = @c.getUniqueId("LM")
+
+    stanza = $iq({"id":id, "to":PUBSUB_BRIDGE, "type":"set"})
+      .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
+      .c("affiliations", { "node" : node })
+      .c("affiliation", { "jid" : jid, affiliation : "follower+post" })
+
+    @c.send(stanza.tree())
+
   onIq: (iq) ->
     # console.log iq
 
@@ -173,7 +197,10 @@ class Connection
           if post.valid()
             Posts.add(post)
           else
-            console.log "invalid post..."
+            # we dont display posts that have no content (looks ugly)...
+            
+            # console.log "invalid post..."
+            # console.log item[0]
       
       # $("<div />").text(iq.find('content').text()).appendTo '#main'
       
@@ -185,18 +212,31 @@ class Connection
     
     true
     
+  createMyChannel: ->
+    id = @c.getUniqueId("LM")
+
+    stanza = $iq({"id":id, "to":PUBSUB_BRIDGE, "type":"set"})
+      .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
+      .c("create", { "node" : app.currentUser.channelId() }).up()
+
+    @c.send(stanza.tree())
+    
+    @grantChannelPermissions app.currentUser.get('jid'), app.currentUser.channelId()
+    
   afterConnected: ->
     app.signedIn(@c.jid.replace(/\/.+/,''))
 
     # Send a presence stanza
     @c.send($pres().tree())
 
-    # Tell the pubsub service
+    # Tell the pubsub service i'm here
     @c.send($pres( { "to" : PUBSUB_BRIDGE, "from" : app.currentUser.get('jid') } ).tree())
 
     # Create my pubsub node
     @c.send($pres( { "type" : "subscribe", "to" : PUBSUB_BRIDGE } ).tree())
-    
+
+    # Create channel for currentUser
+    @createMyChannel()
 
     # Add handlers for messages and iq stanzas
     @c.addHandler(@onMessage, null, 'message', null, null,  null); 

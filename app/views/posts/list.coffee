@@ -80,9 +80,7 @@ class PostsListView extends Backbone.View
       author : app.currentUser.get('jid')
     }
 
-    window.$p = post
-    
-    $c.sendPost(post)
+    post.send()
 
   render: =>
     @el.html(@template( { posts : @collection })).find('.timeago').timeago()

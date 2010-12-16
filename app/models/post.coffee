@@ -33,6 +33,12 @@ class Post extends Backbone.Model
   getAuthorAvatar: ->
     @get('author').getAvatar()
     
+  send: ->
+    if @valid()
+      $c.sendPost(this)
+    else
+      console.log "not sending.. seems invalid."
+    
 this.Post = Post
 
 class PostCollection extends Backbone.Collection
