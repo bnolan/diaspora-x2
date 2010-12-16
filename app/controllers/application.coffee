@@ -20,11 +20,9 @@ class Connection
         
       $("<div />").text(message).addClass(c).appendTo '#log'
 
-    @maxMessageId = "0"
+    @maxMessageId = 1292405757510
   
   onConnect: (status) =>
-    console.log status
-    
     if (status == Strophe.Status.CONNECTING)
       console.log('Strophe is connecting.')
     else if (status == Strophe.Status.AUTHFAIL)
@@ -68,14 +66,13 @@ class Connection
   getAllChannels: ->
     stanza = $pres( { "to" : PUBSUB_BRIDGE } )
     
-    limit = stanza.c("set", {"xmlns":"http://jabber.org/protocol/rsm"})
-    
-    limit
-      .c("after").t(@maxMessageId)
-    limit
+    stanza
+      .c("set", {"xmlns":"http://jabber.org/protocol/rsm"})
+      .c("after").t(@maxMessageId + "")
+      .up()
       .c("max").t("100")
-    limit
-      .c("before")
+      # .up()
+      # .c("before")
 
     @c.send stanza.tree()
     
@@ -86,13 +83,12 @@ class Connection
       .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
       .c("items", {"node":node})
       .c("set", {"xmlns":"http://jabber.org/protocol/rsm"})
-      .c("after").t(@maxMessageId)
+      .c("after").t(@maxMessageId + "")
 
     # Request..
     @c.send(stanza.tree());
     
   onSubscriptionIq: (iq) =>
-    console.log("Got Subs. IQ.");
     console.log iq
 
     true
@@ -115,6 +111,9 @@ class Connection
         jid : jid
       }
       
+      if presence.find('status')
+        user.set { status : presence.find('status').text() }
+      
       Users.add user
       
     true
@@ -127,14 +126,14 @@ class Connection
       
       if item.find 'content'
         post = new Post { 
-          id : item.find('id').text().replace(/.+:/,'')
+          id : parseInt(item.find('id').text().replace(/.+:/,''))
           content : item.find('content').text() 
           author : item.find('author jid').text()
           published : item.find('published').text()
         }
       
-        if item.find('in-reply-to')
-          post.set { in_reply_to : item.find('in-reply-to').attr('ref') }
+        if item.find 'in-reply-to'
+          post.set { 'in_reply_to' : parseInt(item.find('in-reply-to').attr('ref')) }
 
         if item.find 'geoloc'
           post.set { 
@@ -143,7 +142,10 @@ class Connection
             geoloc_text : item.find('geoloc text').text()
           }
         
-        Posts.add(post)
+        if post.valid()
+          Posts.add(post)
+        else
+          console.log "invalid post..."
       
       # $("<div />").text(iq.find('content').text()).appendTo '#main'
       

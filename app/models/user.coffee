@@ -17,7 +17,7 @@ class User extends Backbone.Model
     @get('jid').replace /@.+/, ''
 
   getStatus: ->
-    "Status.."
+    (@get('status') + "").replace(/<.+?>/g,'')
     
   getAvatar: ->
     if @get('jid').match /@buddycloud/

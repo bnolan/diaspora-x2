@@ -3,7 +3,7 @@ class Post extends Backbone.Model
     # ...
 
   isReply: ->
-    (typeof @get('in_reply_to') == 'string') and (@get('in_reply_to') != "")
+    (@get('in_reply_to') != undefined) and (!isNaN(@get('in_reply_to')))
     
   hasGeoloc: ->
     (typeof @get('geoloc_text') == 'string') and (@get('geoloc_text') != "")
@@ -13,6 +13,15 @@ class Post extends Backbone.Model
       post.get('in_reply_to') == @id
     )
     
+  valid: ->
+    @_validate(@attributes) == true
+    
+  _validate: (attributes) ->
+    if (typeof attributes.content != 'string') or (attributes.content == "")
+      "Can't have empty content"
+    else
+      true
+      
   getAuthorName: ->
     @get('author').replace /@.+/, ''
 
@@ -27,7 +36,7 @@ this.Post = Post
 class PostCollection extends Backbone.Collection
   model: Post
   
-  comparator: (post) ->
-    post.get('published')
+  # comparator: (post) ->
+  #   post.get('published')
   
 this.Posts = new PostCollection
