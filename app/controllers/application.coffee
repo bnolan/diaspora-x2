@@ -78,12 +78,12 @@ class Connection
       .c("in-reply-to", { "xmlns" : "http://purl.org/syndication/thread/1.0", "ref" : post.get('in_reply_to') }).up()
       # ... geoloc ..
 
-    console.log(stanza.tree())
+    # console.log(stanza.tree())
     
     # Request..
     @c.send(stanza.tree());
     
-    console.log "sent!"
+    # console.log "sent!"
     
   getAllChannels: ->
     stanza = $pres( { "to" : PUBSUB_BRIDGE } )
@@ -117,13 +117,13 @@ class Connection
     @c.send(stanza.tree());
     
   onSubscriptionIq: (iq) =>
-    console.log iq
+    # console.log iq
 
     true
     
     
   onMessage: (message) ->
-    console.log message
+    # console.log message
 
     true
     
@@ -131,9 +131,6 @@ class Connection
     presence = $(stanza)
     
     jid = presence.attr('from').replace(/\/.+/,'')
-    
-    if jid == "bennolan@buddycloud.com"
-      console.log stanza
       
     user = if Users.findByJid(jid)
       Users.findByJid(jid)
@@ -266,8 +263,6 @@ class Connection
     #           Client.on_subscribe
     #         );
 
-
-    console.log("done");
 		
 
 app = {}

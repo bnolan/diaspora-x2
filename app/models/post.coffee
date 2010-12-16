@@ -37,7 +37,7 @@ class Post extends Backbone.Model
     if @valid()
       $c.sendPost(this)
     else
-      console.log "not sending.. seems invalid."
+      # console.log "not sending.. seems invalid."
     
 this.Post = Post
 
