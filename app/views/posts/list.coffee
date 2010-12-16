@@ -83,7 +83,7 @@ class PostsListView extends Backbone.View
     post.send()
 
   render: =>
-    # @el.html(@template( { posts : @collection })).find('.timeago').timeago()
-    # @delegateEvents()
+    @el.html(@template( { posts : @collection })).find('.timeago').timeago()
+    @delegateEvents()
 
 @PostsListView = PostsListView
