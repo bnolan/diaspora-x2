@@ -8,6 +8,9 @@ class User extends Backbone.Model
   getStatus: ->
     (@get('status') + "").replace(/<.+?>/g,'')
     
+  channelId: ->
+    "/user/#{@get('jid')}/channel"
+    
   getAvatar: ->
     if @get('jid').match /@buddycloud/
       "http://media.buddycloud.com/channel/54x54/buddycloud.com/#{@getName()}.png"

@@ -9,11 +9,10 @@ class WelcomeIndexView extends Backbone.View
     
     @template = _.template('''
 
-      <form accept-charset="UTF-8" action="/activities" class="new_activity status" id="new_activity" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="qO7TB8YODF9jEuTm5KhLnERnJ2Syi9+LnkH5KkIH6N0=" /></div>
+      <form action="#" class="new_activity status">
         <h4>What are you doing now?</h4>
-        <input id="activity_verb" name="activity[verb]" type="hidden" value="status" />
-        <textarea cols="40" id="activity_content" name="activity[content]" rows="20"></textarea>
-        <input id="activity_submit" name="commit" type="submit" value="Share" />
+        <textarea cols="40" id="activity_content" name="content" rows="20"></textarea>
+        <input name="commit" type="submit" value="Share" />
       </form>
         
       <% posts.each(function(post){ %>
@@ -76,9 +75,24 @@ class WelcomeIndexView extends Backbone.View
 
     @render()
   
-  # events: {
-  #   'mousedown a' : 'select'
-  # }
+  events: {
+    'submit form' : 'submit'
+  }
+  
+  submit: (e) ->
+    e.preventDefault()
+
+    post = new Post {
+      content : @el.find('textarea:first').val()
+      in_reply_to : null
+      channel : app.currentUser.channelId()
+      author : app.currentUser.get('jid')
+    }
+
+    window.$p = post
+    
+    $c.sendPost(post) # .save()
+    
   # 
   # select: (e) ->
   #   @el.find('a').removeClass 'active'

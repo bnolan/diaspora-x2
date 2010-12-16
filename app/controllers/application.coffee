@@ -63,6 +63,26 @@ class Connection
   #   @c.send(stanza.tree());
   #   
   
+  sendPost: (post) ->
+    id = @c.getUniqueId("LM")
+
+    stanza = $iq({"id" : id, "to" : PUBSUB_BRIDGE, "type" : "set"})
+      .c("pubsub", {"xmlns":"http://jabber.org/protocol/pubsub"})
+      .c("publish", {"node":post.get('channel')})
+      .c("item")
+      .c("entry", {"xmlns":"http://www.w3.org/2005/Atom"})
+      .c("content", {"type" : "text"}).t(post.get("content")).up()
+      .c("author")
+      .c("jid", {"xmlns":"http://buddycloud.com/atom-elements-0"}).t(post.get("author")).up().up()
+      # ... geoloc ..
+
+    console.log(stanza.tree())
+    
+    # Request..
+    @c.send(stanza.tree());
+    
+    console.log "sent!"
+    
   getAllChannels: ->
     stanza = $pres( { "to" : PUBSUB_BRIDGE } )
     
