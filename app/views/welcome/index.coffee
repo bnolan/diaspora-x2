@@ -61,9 +61,17 @@ class WelcomeIndexView extends Backbone.View
     ).reverse()
     
   render: =>
-    @el.html(@template( { posts : @getPosts() })).find('.timeago').timeago()
-    @delegateEvents()
+    console.log "render!"
+    
+    if @renderTimeout
+      clearTimeout @renderTimeout
+      
+    @renderTimeout = setTimeout( =>
+      @el.html(@template( { posts : @getPosts() })).find('.timeago').timeago()
+      @delegateEvents()
 
-    new PostsListView { el : @el.find('.posts'), collection : @getPosts() }
+      new PostsListView { el : @el.find('.posts'), collection : @getPosts() }
+      @renderTimeout = null
+    , 50)
 
 @WelcomeIndexView = WelcomeIndexView

@@ -62,9 +62,16 @@ class UsersShowView extends Backbone.View
     ).reverse()
     
   render: =>
-    @el.html(@template( { user : @model, posts : @getPosts() })).find('.timeago').timeago()
-    @delegateEvents()
+    if @renderTimeout
+      clearTimeout @renderTimeout
+      
+    @renderTimeout = setTimeout( =>
+      @el.html(@template( { user : @model, posts : @getPosts() })).find('.timeago').timeago()
+      @delegateEvents()
 
-    new PostsListView { el : @el.find('.posts'), collection : @getPosts() }
+      new PostsListView { el : @el.find('.posts'), collection : @getPosts() }
+      
+      @renderTimeout = null
+    , 50)
 
 @UsersShowView = UsersShowView

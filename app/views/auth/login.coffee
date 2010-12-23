@@ -45,7 +45,7 @@ class AuthLoginView extends Backbone.View
           </div-->
           
           <div class="f">
-            <input type="submit" value="Sign in" />
+            <input class="signin-button" type="submit" value="Sign in" />
           </div>
         </form>
         
@@ -55,7 +55,7 @@ class AuthLoginView extends Backbone.View
           <small>Account creation is temporarily disabled. Please try again later.</small>
         </p>
         
-        <div style="display: none">
+        <!--div style="display: none">
           <p>
             <small>
               If you don't want to use an existing login, you can sign up for one
@@ -63,7 +63,7 @@ class AuthLoginView extends Backbone.View
             </small>
           </p
 
-          <form action="#signup" class="signup">
+          <form method="get" action="#signup" class="signup">
 
             <div class="f">
               <label for="jid">Login</label>
@@ -87,7 +87,7 @@ class AuthLoginView extends Backbone.View
 
             <div class="f"><input id="user_submit" name="commit" type="submit" value="Sign up" /></div>
           </form>
-        </div>
+        </div-->
         
         
       </div>
@@ -96,13 +96,13 @@ class AuthLoginView extends Backbone.View
     @render()
     
   events: {
-    'submit .signin' : 'signin'
-    'submit .signup' : 'signup'
+    'submit form.signin' : 'signin'
+    'click .signin-button' : 'signin'
   }
   
   signin: (e) ->
-    jid = $(".signin input[name='jid']").val()
-    password = $(".signin input[name='password']").val()
+    jid = $("input[name='jid']").val()
+    password = $("input[name='password']").val()
 
     if jid.match(/@/) && password.length > 0
       localStorage['jid'] = jid
