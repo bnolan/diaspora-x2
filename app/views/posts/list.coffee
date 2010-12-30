@@ -8,7 +8,7 @@ class PostsListView extends Backbone.View
           </div>
           <div class="grid_5">
             <h4>
-              <a href="#users/<%= post.get('author').get('jid') %>"><%= post.getAuthorName() %> </a>
+              <a href="#users/<%= post.getAuthor().get('jid') %>"><%= post.getAuthorName() %> </a>
             </h4>
             <p class="content">
               <%= post.get('content') %>
@@ -31,7 +31,7 @@ class PostsListView extends Backbone.View
                   <div class="comment">
                     <img class="micro avatar" src="<%= reply.getAuthorAvatar() %>" />
                     <p class="content">
-                      <a href="#users/<%= reply.get('author').get('jid') %>"><%= reply.getAuthorName() %></a> <%= reply.get('content') %>
+                      <a href="#users/<%= reply.getAuthor().get('jid') %>"><%= reply.getAuthorName() %></a> <%= reply.get('content') %>
                     </p>
                     <span class="meta">
                       <span class='timeago' title='<%= reply.get('published') %>'><%= post.get('published') %></span>

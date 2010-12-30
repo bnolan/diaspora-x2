@@ -27,11 +27,14 @@ class Post extends Backbone.Model
     else
       true
       
+  getAuthor: ->
+    Users.findOrCreateByJid @get('author')
+    
   getAuthorName: ->
-    @get('author').getName()
+    @getAuthor().getName()
 
   getAuthorAvatar: ->
-    @get('author').getAvatar()
+    @getAuthor().getAvatar()
     
   send: ->
     if @valid()

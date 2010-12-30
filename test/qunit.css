@@ -194,3 +194,15 @@
 	top: -10000px;
 	left: -10000px;
 }
+
+/* Invisible node for testing the dom.. */
+
+.invisible{
+	position: absolute;
+	left: -1000px;
+	top: 0;
+	width: 1000px;
+	height: 1000px;
+	overflow: auto;
+	border: none;
+}

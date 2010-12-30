@@ -284,6 +284,9 @@ app.spinner = ->
   $("#content").empty()
   $("<div id='spinner'><img src='public/spinner.gif' /> Connecting...</div>").appendTo 'body'
 
+app.showLog = ->
+  $("#log").show()
+  
 app.signedIn = (jid) ->
   $("#spinner").remove()
 
@@ -315,12 +318,15 @@ app.signout = ->
   
 
 app.start = ->
-  # The login / connection process isn't robust enough to jump
-  # to a random page in the app yet..
-  window.location.hash = ""
+  if window.location.pathname == "/test/"
+    # ...
+  else
+    # The login / connection process isn't robust enough to jump
+    # to a random page in the app yet..
+    window.location.hash = ""
   
-  # Start the url router
-  Backbone.history.start();  
+    # Start the url router
+    Backbone.history.start();  
 
 
 @app = app

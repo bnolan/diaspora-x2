@@ -2,6 +2,12 @@ class Channel extends Backbone.Model
   initializer: ->
     # ...
     
+  channelId: ->
+    @get('node')
+
+  fetchPosts: ->
+    $c.getChannel @channelId()
+    
   getName: ->
     @get('node').replace(/.+\//,'')
     
@@ -15,7 +21,7 @@ class ChannelCollection extends Backbone.Collection
       channel.get('node') == node
       
   findOrCreateByNode : (node) ->
-    channel  = null
+    channel = null
     
     if @findByNode(node)
       channel = @findByNode(node)

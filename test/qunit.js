@@ -8,6 +8,14 @@
  * and GPL (GPL-LICENSE.txt) licenses.
  */
 
+runTests = function(func){
+	setTimeout(func, 250);
+};
+
+waitForRender = function(func){
+	setTimeout(func, 60);
+};
+
 (function(window) {
 
 var defined = {

@@ -1,17 +1,22 @@
-class WelcomeIndexView extends Backbone.View
+class ChannelsShowView extends Backbone.View
   initialize: ->
     new CommonPageView
-    new UsersListView { collection : Users }
-    new ChannelsListView { collection : Channels }
 
-    @el = $("#main") # app.activePage()
+    @el = $("#main")
 
     @collection = Posts
     
     @template = _.template('''
 
+      <h1>
+        <%= channel.getName() %>
+      </h1>
+      <p class="usermeta">
+        <img src="public/icons/globe_2.png" /> <%= channel.get('node') %>
+      </p>
+    
       <form action="#" class="new_activity status">
-        <h4>What are you doing now?</h4>
+        <h4>New post</h4>
         <textarea cols="40" id="activity_content" name="content" rows="20"></textarea>
         <input name="commit" type="submit" value="Share" />
       </form>
@@ -42,22 +47,15 @@ class WelcomeIndexView extends Backbone.View
     post = new Post {
       content : @el.find('textarea:first').val()
       in_reply_to : null
-      channel : app.currentUser.channelId()
+      channel : @model.channelId()
       author : app.currentUser.get('jid')
     }
-
-    post.send()
     
-  # 
-  # select: (e) ->
-  #   @el.find('a').removeClass 'active'
-  #   $(e.currentTarget).addClass 'active'
-
-  # Render the content
+    post.send()
   
   getPosts: ->
-    _ @collection.select((post) ->
-      (!post.isReply()) && (post.isUserChannel())
+    _ @collection.select((post) =>
+      (!post.isReply()) && (post.get('channel') == @model.channelId())
     ).reverse()
     
   render: =>
@@ -65,11 +63,12 @@ class WelcomeIndexView extends Backbone.View
       clearTimeout @renderTimeout
       
     @renderTimeout = setTimeout( =>
-      @el.html(@template( { posts : @getPosts() })).find('.timeago').timeago()
+      @el.html(@template( { channel : @model, posts : @getPosts() })).find('.timeago').timeago()
       @delegateEvents()
 
       new PostsListView { el : @el.find('.posts'), collection : @getPosts() }
+      
       @renderTimeout = null
     , 50)
 
-@WelcomeIndexView = WelcomeIndexView
+@ChannelsShowView = ChannelsShowView

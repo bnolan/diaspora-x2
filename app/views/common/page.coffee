@@ -58,6 +58,9 @@ class CommonPageView extends Backbone.View
     ''')
 
     @render()
+
+    new UsersListView { collection : Users }
+    new ChannelsListView { collection : Channels }
     
   events: {
     'submit .friend_new' : 'friendSearch'
@@ -75,5 +78,6 @@ class CommonPageView extends Backbone.View
     $('ul.tabs li').show()
     @el.html(@template())
     @delegateEvents()
+    
 
 @CommonPageView = CommonPageView
