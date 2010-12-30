@@ -28,7 +28,10 @@ class Post extends Backbone.Model
       true
       
   getAuthor: ->
-    Users.findOrCreateByJid @get('author')
+    if @get('author') instanceof User
+      @get('author')
+    else
+      Users.findOrCreateByJid @get('author')
     
   getAuthorName: ->
     @getAuthor().getName()

@@ -6,5 +6,5 @@ class ChannelsController extends Backbone.Controller
     channel = Channels.findOrCreateByNode("/channel/#{node}")
     channel.fetchPosts()
     new ChannelsShowView { model : channel }
-    
+        
 new ChannelsController

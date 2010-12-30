@@ -5,7 +5,7 @@ class ChannelsListView extends Backbone.View
     @template = _.template('''
       <% channels.each(function(channel){ %>
         <li>
-          <b><a href="#channels/<%= channel.get('node') %>"><%= channel.getName() %></a></b>
+          <b><a href="#channels/<%= channel.getName() %>"><%= channel.getName() %></a></b>
         </li>
       <% }); %>
     ''')

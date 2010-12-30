@@ -3,6 +3,9 @@ BOSH_SERVICE = 'http://buddycloud.com/http-bind/'
 BOSH_SERVICE = 'http://bosh.metajack.im:5280/xmpp-httpbind'
 CHANNEL = "/user/simon@buddycloud.com/channel"
 
+`String.prototype.capitalize = function(){
+   return this.replace( /(^|\s)([a-z])/g , function(m,p1,p2){ return p1+p2.toUpperCase(); } );
+};`
 
 class Connection
   constructor: (jid, password) ->

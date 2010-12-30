@@ -9,10 +9,10 @@ class ChannelsShowView extends Backbone.View
     @template = _.template('''
 
       <h1>
-        <%= channel.getName() %>
+        <%= channel.getName().capitalize() %>
       </h1>
       <p class="usermeta">
-        <img src="public/icons/globe_2.png" /> <%= channel.get('node') %>
+        <img src="public/icons/folder.png" /> <%= channel.getName().capitalize() %> Channel
       </p>
     
       <form action="#" class="new_activity status">

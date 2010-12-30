@@ -20,5 +20,15 @@ runTests ->
     Backbone.history.loadUrl()
 
     waitForRender ->
-      ok $("#main h1").html().match(/welcome/)
+      ok $("#main h1").html().match(/Welcome/)
       start()
+      
+      
+  # test "post", ->
+  #   ta = $("#main form:first textarea")
+  #   
+  #   ok ta[0]
+  #   
+  #   ta.val("test post").parents("form").submit()
+  # 
+  #   ok 
