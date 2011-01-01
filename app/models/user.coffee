@@ -22,6 +22,24 @@ class User extends Backbone.Model
   
   grantChannelPermissions: ->
     $c.grantChannelPermissions @get('jid'), @channelId()
+
+  addFriend: (jid) ->
+    if ! @get('friends')
+      @set { friends : [] }
+
+    for j in @get('friends') when jid == j
+      # already exists...
+      return
+      
+    @attributes.friends.push jid
+    
+  # more like the roster...
+  getFriends: ->
+    if ! @get('friends')
+      @set { friends : [] }
+
+    for jid in @get('friends')
+      Users.findOrCreateByJid jid
     
   getAvatar: ->
     if @get('jid').match /@buddycloud/

@@ -80,6 +80,10 @@ class Connection
       .c("in-reply-to", { "xmlns" : "http://purl.org/syndication/thread/1.0", "ref" : post.get('in_reply_to') }).up()
       # ... geoloc ..
 
+      
+      # <link rel="license" type="text/html"
+      #   href="http://creativecommons.org/licenses/by/2.5/" />      
+
     # console.log(stanza.tree())
     
     # Request..

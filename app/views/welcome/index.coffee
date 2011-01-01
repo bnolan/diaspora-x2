@@ -1,8 +1,6 @@
 class WelcomeIndexView extends Backbone.View
   initialize: ->
     new CommonPageView
-    new UsersListView { collection : Users }
-    new ChannelsListView { collection : Channels }
 
     @el = $("#main") # app.activePage()
 
@@ -19,10 +17,10 @@ class WelcomeIndexView extends Backbone.View
       <div class="posts"></div>
     ''')
 
-    @collection.bind 'add', @render
-    @collection.bind 'change', @render
-    @collection.bind 'remove', @render
-    @collection.bind 'refresh', @render
+    Posts.bind 'add', @render
+    Posts.bind 'change', @render
+    Posts.bind 'remove', @render
+    Posts.bind 'refresh', @render
 
     @render()
   

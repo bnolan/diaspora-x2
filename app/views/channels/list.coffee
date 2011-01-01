@@ -10,10 +10,10 @@ class ChannelsListView extends Backbone.View
       <% }); %>
     ''')
 
-    @collection.bind 'add', @render
-    @collection.bind 'change', @render
-    @collection.bind 'remove', @render
-    @collection.bind 'refresh', @render
+    Channels.bind 'add', @render
+    Channels.bind 'change', @render
+    Channels.bind 'remove', @render
+    Channels.bind 'refresh', @render
 
     @render()
     

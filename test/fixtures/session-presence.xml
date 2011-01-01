@@ -1,0 +1,31 @@
+
+<body xmlns='http://jabber.org/protocol/httpbind'>
+  
+  <presence xmlns='jabber:client' to='bennolan@buddycloud.com/5078580331293706303732022' from='bennolan@buddycloud.com/9929650221293662530253967'>
+    <delay xmlns='urn:xmpp:delay' stamp='2010-12-29T22:42:11Z' from='bennolan@buddycloud.com/9929650221293662530253967'/>
+    <x xmlns='jabber:x:delay' stamp='20101229T22:42:11'/>
+  </presence>
+
+  <presence xmlns='jabber:client' to='bennolan@buddycloud.com/5078580331293706303732022' from='gulli@buddycloud.com/s60/bcloud'>
+    <priority>10</priority>
+    <status>Seminyak, Indonesia</status>
+    <c xmlns='http://jabber.org/protocol/caps' node='http://buddycloud.com/caps' ver='s60-1.1.00'/>
+    <nick xmlns='http://jabber.org/protocol/nick'/>
+    <delay xmlns='urn:xmpp:delay' stamp='2010-12-30T09:28:16Z' from='gulli@buddycloud.com/s60/bcloud'/>
+    <x xmlns='jabber:x:delay' stamp='20101230T09:28:16'/>
+  </presence>
+
+  <presence xmlns='jabber:client' to='bennolan@buddycloud.com/5078580331293706303732022' from='simon@buddycloud.com/s60/bcloud'>
+    <priority>10</priority>
+    <status>Germany</status>
+    <c xmlns='http://jabber.org/protocol/caps' node='http://buddycloud.com/caps' ver='s60-1.1.00'/>
+    <nick xmlns='http://jabber.org/protocol/nick'/>
+    <delay xmlns='urn:xmpp:delay' stamp='2010-12-30T10:03:43Z' from='simon@buddycloud.com/s60/bcloud'/>
+    <x xmlns='jabber:x:delay' stamp='20101230T10:03:43'/>
+  </presence>
+
+  <presence xmlns='jabber:client' to='bennolan@buddycloud.com/5078580331293706303732022' from='pubsub-bridge@broadcaster.buddycloud.com'>
+      <status>Small happy Buddycloud's pubsub server!</status>
+  </presence>
+
+</body>

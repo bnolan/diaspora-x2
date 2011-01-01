@@ -3,7 +3,7 @@ class UsersListView extends Backbone.View
     @el = $("#friends-list")
 
     @template = _.template('''
-      <% users.each(function(user){ %>
+      <% _(users).each(function(user){ %>
         <li>
           <img class="micro avatar" src="<%= user.getAvatar() %>" />
           <b><a href="#users/<%= user.get('jid') %>"><%= user.getName() %></a></b>
@@ -12,10 +12,10 @@ class UsersListView extends Backbone.View
       <% }); %>
     ''')
 
-    @collection.bind 'add', @render
-    @collection.bind 'change', @render
-    @collection.bind 'remove', @render
-    @collection.bind 'refresh', @render
+    Users.bind 'add', @render
+    Users.bind 'change', @render
+    Users.bind 'remove', @render
+    Users.bind 'refresh', @render
 
     @render()
     

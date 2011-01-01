@@ -1,11 +1,12 @@
 
 runTests ->
-  module('channels controller');
+  module('welcome controller');
 
   $("<div id='content' />").addClass('invisible').appendTo 'body'
 
   new ChannelFixtures
   new UserFixtures
+  new PostFixtures
 
   # If we were using jasmine or qunit-mock we could stub... :/
   window.$c = {
@@ -13,16 +14,15 @@ runTests ->
       # ...
   }
 
-  $("<div id='main'></div>").addClass('invisible').appendTo 'body'
-  
   app.currentUser = Users.first()
   
-  asyncTest 'show', 1, ->
-    window.location.hash = "channels/welcome"
+  asyncTest 'home', 1, ->
+    window.location.hash = "home"
     Backbone.history.loadUrl()
 
     waitForRender ->
-      equal 1, $("#content h1:contains('Welcome')").length
+      equal 1, $("#content h4:contains('using a distributed social network')").length
+      # ok $("#main h1").html().match(/Welcome/)
       start()
       
   # test "post", ->
@@ -32,4 +32,4 @@ runTests ->
   #   
   #   ta.val("test post").parents("form").submit()
   # 
-  #   ok 
+  #   ok

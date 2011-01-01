@@ -15,7 +15,7 @@ runTests ->
   
   test 'getName', ->
     equal(Channels.first().getName(), "welcome")
-
+    
   test "channelId", ->
     equal(Channels.first().channelId(), "/channel/welcome")
     

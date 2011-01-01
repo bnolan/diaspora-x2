@@ -1,7 +1,6 @@
 class UsersShowView extends Backbone.View
   initialize: ->
     new CommonPageView
-    new UsersListView { collection : Users }
 
     @el = $("#main") # app.activePage()
 
@@ -27,10 +26,10 @@ class UsersShowView extends Backbone.View
       <div class="posts"></div>
     ''')
 
-    @collection.bind 'add', @render
-    @collection.bind 'change', @render
-    @collection.bind 'remove', @render
-    @collection.bind 'refresh', @render
+    Users.bind 'add', @render
+    Users.bind 'change', @render
+    Users.bind 'remove', @render
+    Users.bind 'refresh', @render
 
     @render()
   
