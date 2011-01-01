@@ -296,14 +296,14 @@ app.showLog = ->
   
 app.signedIn = (jid) ->
   $("#spinner").remove()
-
+  
   if not Users.findByJid(jid)
     user = new User { jid : jid }
     Users.add user
     
   app.currentUser = Users.findByJid(jid)
   
-  window.location.hash = "home"
+  window.location.hash = app.afterConnect
   
   new CommonAuthView
   
@@ -328,6 +328,13 @@ app.start = ->
   if window.location.pathname == "/test/"
     # ...
   else
+    app.afterConnect = "welcome"
+    
+    if window.location.hash.match 'channels/'
+      app.afterConnect = window.location.hash
+    else if window.location.hash.match 'users/'
+      app.afterConnect = window.location.hash
+    
     # The login / connection process isn't robust enough to jump
     # to a random page in the app yet..
     window.location.hash = ""

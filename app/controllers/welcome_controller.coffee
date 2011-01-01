@@ -8,8 +8,6 @@ class WelcomeController extends Backbone.Controller
       app.connect()
     else
       window.location.hash = "login"
-
-    app.spinner()
     
   home: ->
     $("#spinner").remove()
