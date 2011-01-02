@@ -16,8 +16,8 @@ runTests ->
   test 'getName', ->
     equal(Channels.first().getName(), "welcome")
     
-  test "channelId", ->
-    equal(Channels.first().channelId(), "/channel/welcome")
+  test "getNode", ->
+    equal(Channels.first().getNode(), "/channel/welcome")
     
   test "fetchPosts", ->
     Channels.first().fetchPosts()

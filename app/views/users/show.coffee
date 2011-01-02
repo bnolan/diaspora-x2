@@ -49,7 +49,7 @@ class UsersShowView extends Backbone.View
     post = new Post {
       content : @el.find('textarea:first').val()
       in_reply_to : null
-      channel : @model.channelId()
+      channel : @model.getNode()
       author : app.currentUser.get('jid')
     }
     
@@ -57,7 +57,7 @@ class UsersShowView extends Backbone.View
   
   getPosts: ->
     _ @collection.select((post) =>
-      (!post.isReply()) && (post.get('channel') == @model.channelId())
+      (!post.isReply()) && (post.get('channel') == @model.getNode())
     ).reverse()
     
   render: =>

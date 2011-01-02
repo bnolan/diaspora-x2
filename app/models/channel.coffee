@@ -2,11 +2,13 @@ class Channel extends Backbone.Model
   initializer: ->
     # ...
     
-  channelId: ->
+  # The node id of this chanel
+  getNode: ->
     @get('node')
-
+    
   fetchPosts: ->
-    $c.getChannel @channelId()
+    $c.getChannel @getNode()
+    $c.getMetaData this
     
   getName: ->
     @get('node').replace(/.+\//,'')

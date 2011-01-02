@@ -76,7 +76,7 @@ class PostsListView extends Backbone.View
     post = new Post {
       content : @el.find('textarea:first').val()
       in_reply_to : @el.find("input[name='in_reply_to']").val()
-      channel : app.currentUser.channelId()
+      channel : app.currentUser.getNode()
       author : app.currentUser.get('jid')
     }
 

@@ -40,7 +40,7 @@ class WelcomeIndexView extends Backbone.View
     post = new Post {
       content : @el.find('textarea:first').val()
       in_reply_to : null
-      channel : app.currentUser.channelId()
+      channel : app.currentUser.getNode()
       author : app.currentUser.get('jid')
     }
 

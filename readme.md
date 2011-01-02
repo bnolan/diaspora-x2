@@ -1,4 +1,8 @@
 
+# Installation
+
+Diaspora-x^2 doesn't require any 
+
 # References
 
 * http://onesocialweb.org/spec/1.0/osw-activities.html

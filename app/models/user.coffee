@@ -3,7 +3,7 @@ class User extends Backbone.Model
     # ...
 
   fetchPosts: ->
-    $c.getChannel @channelId()
+    $c.getChannel @getNode()
     
   getName: ->
     @get('jid').replace /@.+/, ''
@@ -11,7 +11,7 @@ class User extends Backbone.Model
   getStatus: ->
     (@get('status') + "").replace(/<.+?>/g,'')
     
-  channelId: ->
+  getNode: ->
     "/user/#{@get('jid')}/channel"
     
   subscribe: ->
@@ -21,7 +21,7 @@ class User extends Backbone.Model
     $c.unsubscribeFromUser @get('jid')
   
   grantChannelPermissions: ->
-    $c.grantChannelPermissions @get('jid'), @channelId()
+    $c.grantChannelPermissions @get('jid'), @getNode()
 
   addFriend: (jid) ->
     if ! @get('friends')

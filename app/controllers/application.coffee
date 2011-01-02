@@ -91,6 +91,20 @@ class Connection
     
     # console.log "sent!"
     
+  getMetaData: (channel) ->
+    id = @c.getUniqueId("LM");
+    request = $iq( { "id" : id, "to" : PUBSUB_BRIDGE, "type" : "get" })
+      .c( "query", { "xmlns" : "http://jabber.org/protocol/disco#info", "node" : channel.getNode() })
+
+    # connection.addHandler(Pref.onNodeMetaData, 
+    #                               EVERY_NAMESPACE, 
+    #                               "iq", 
+    #                               EVERY_IQ_TYPE, 
+    #                               uniqueID, 
+    #                               FROM_ANY_SERNDER);
+
+    @c.send(request.tree())
+    
   getAllChannels: ->
     stanza = $pres( { "to" : PUBSUB_BRIDGE } )
     
@@ -328,7 +342,7 @@ app.start = ->
   if window.location.pathname == "/test/"
     # ...
   else
-    app.afterConnect = "welcome"
+    app.afterConnect = "home"
     
     if window.location.hash.match 'channels/'
       app.afterConnect = window.location.hash
